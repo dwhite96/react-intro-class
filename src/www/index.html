@@ -13,6 +13,14 @@
             margin-right: 10px;
             width: 40px;
         }
+
+        .red {
+            color: red;
+        }
+
+        .blue {
+            color: blue;
+        }
     </style>
 </head>
 <body>
@@ -22,23 +30,42 @@
 <script type="text/babel">
 
     // Exercise: increment and decrement clicks starting at 0
-    var ClickCounter = React.createClass({
-        render: function() {
+    let ClickCounter = React.createClass({
+
+        getInitialState() {
+            return {
+                count: 0
+            };
+        },
+
+        render() {
             return (
-                <div>
+                <div className={this.state.count < 0 ? 'red' : 'blue'}>
                     <h1>Click Counter</h1>
                     <div>
-                        <button>+1</button>
-                        <button>-1</button>
+                        <button onClick={this.increment}>+1</button>
+                        <button onClick={this.decrement}>-1</button>
                     </div>
-                    <h2>Clicks: ____</h2>
+                    <h2>Clicks: {this.state.count}</h2>
                 </div>
             );
+        },
+
+        increment() {
+            this.setState({
+                count: this.state.count + 1
+            });
+        },
+
+        decrement() {
+            this.setState({
+                count: this.state.count - 1
+            });
         }
     });
 
-    var Greeting = React.createClass({
-        render: function() {
+    let Greeting = React.createClass({
+        render() {
             return <h1>Hi, my name is {this.props.name}. I like to {this.props.likeTo}.</h1>;
         }
     });
