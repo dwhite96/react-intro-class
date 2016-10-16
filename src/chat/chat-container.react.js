@@ -1,13 +1,7 @@
 import React from 'react';
+import chatActionCreators from './chat-actions-creators'
 
 export default React.createClass({
-
-	getInitialState() {
-		return {
-			messageList: [],
-			newMessage: ''
-		};
-	},
 
 	render() {
 
@@ -22,7 +16,7 @@ export default React.createClass({
 					<input
 						type="text"
 						placeholder="Type here"
-						value={this.state.newMessage}
+						value={this.props.newMessage}
 						onChange={this._handleChange}
 						onKeyPress={this._checkKeyPress}
 						ref={this._focus}/>
@@ -38,36 +32,22 @@ export default React.createClass({
 	},
 
 	_renderMessages() {
-		if (this.state.messageList.length === 0) {
+		if (this.props.messageList.length === 0) {
 			return <span>No messages</span>;
 		}
 		else {
-			return this.state.messageList.map(message => {
+			return this.props.messageList.map(message => {
 				return <div className="message" key={message.id}>{message.content}</div>
 			});
 		}
 	},
 
 	_handleChange(event) {
-		this.setState({
-			newMessage: event.target.value
-		});
+		chatActionCreators.changeNewMessage(event.target.value);
 	},
 
 	_submitMessage() {
-		if (this.state.newMessage.trim().length > 0) {
-			let message = {
-				id: Date.now(),
-				content: this.state.newMessage
-			};
-
-			this.state.messageList.push(message);
-
-			this.setState({
-				messageList: this.state.messageList,
-				newMessage: ''
-			});
-		}
+		chatActionCreators.submitNewMessage();
 	},
 
 	_checkKeyPress(event) {
@@ -85,6 +65,6 @@ export default React.createClass({
 	},
 
 	_renderMessageCount() {
-		return <span>Message count: {this.state.messageList.length}</span>
+		return <span>Message count: {this.props.messageList.length}</span>
 	}
 });
