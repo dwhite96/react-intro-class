@@ -22,7 +22,7 @@
  [x] 15. Move submitNewMessage to the flux pattern, remember that the store is already tracking the newMessage,
         also the store should have the business logic, it is easy to unit test the store
 
- [] 16. Create a new component (owned by ChatController) that has chat metrics:
+ [x] 16. Create a new component (owned by ChatController) that has chat metrics:
    - it shows number of characters in the new message
    - it shows the number of messages
    - It shows the time of the last message. Hint: use Date.toLocaleTimeString()
