@@ -6,7 +6,7 @@ import ChatGiphys from './chat-giphys.react';
 import RequestStatus from './request-status.react.js';
 
 export default React.createClass({
-	
+
 	getInitialState() {
 		return this._getState();
 	},
