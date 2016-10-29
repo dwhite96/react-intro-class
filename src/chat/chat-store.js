@@ -1,72 +1,85 @@
 import {EventEmitter} from 'events';
 import dispatcher from './chat-dispatcher';
+import messageApi from './message-api';
+
+const storeChangeEvent = 'chat-store-change';
 
 const storeChangeEvent = 'store-change-event';
 
 class ChatStore extends EventEmitter {
 
-  constructor() {
-    super();
-    this._messageList = [];
-    this._newMessage = '';
+	constructor() {
+		super();
+		this._state = {
+			messageList: [],
+			newMessage: ''
+		};
 
-    dispatcher.register(this.handleAction.bind(this));
-  }
+		dispatcher.register(this.handleAction.bind(this));
+	}
 
-  get messageList() {
-    return this._messageList;
-  }
+	get messageList() {
+		return this._state.messageList;
+	}
 
-  get newMessage() {
-    return this._newMessage;
-  }
+	get newMessage() {
+		return this._state.newMessage;
+	}
 
-  handleAction(action) {
-    console.log(action);
+	handleAction(action) {
 
-    switch(action.type) {
+		console.log(action.type);
 
-      case 'change-new-message':
-        this._newMessage = action.payload.content;
-        this.emitChange();
-        break;
+		switch(action.type) {
+			case 'change-new-message':
+				this._state.newMessage = action.payload.content;
+				this.emitChange();
+				break;
 
-      case 'submit-new-message':
-        this._submitNewMessage();
-        this.emitChange();
-        break;
+			case 'submit-message':
+				this._submitMessage();
+				this.emitChange();
+				break;
 
-      default:
-        break;
-    }
-  }
+			case 'incoming-new-message':
+				this._incomingNewMessage(action.payload.content);
+				this.emitChange();
+				break;
 
-  _submitNewMessage() {
-    if (this._newMessage.trim().length > 0) {
-      let message = {
-        id: this._messageList.length,
-        content: this._newMessage,
-        timestamp: Date.now()
-      };
+			default:
+				break;
+		}
+	}
 
-      this._messageList.push(message);
-      this._newMessage = '';
-    }
-  }
+	_submitMessage() {
+		if (this._state.newMessage.trim().length > 0) {
+			messageApi.publish(this._state.newMessage);
+			this._state.newMessage = '';
+		}
+	}
 
-  emitChange() {
-    this.emit(storeChangeEvent);
-  }
+	_incomingNewMessage(content) {
+		let messageObj = {
+			id: Date.now(),
+			content
+		};
 
-  addEventListener(callback) {
-    this.on(storeChangeEvent, callback);
-  }
+		this._state.messageList.push(messageObj);
+	}
 
-  removeEventListener(callback) {
-    this.removeListener(storeChangeEvent, callback);
-  }
+	emitChange() {
+		this.emit(storeChangeEvent);
+	}
+
+	addEventListener(callback) {
+		this.on(storeChangeEvent, callback);
+	}
+
+	removeEventListener(callback) {
+		this.removeListener(storeChangeEvent, callback);
+	}
 }
 
-const chatStore = new ChatStore();
+let chatStore = new ChatStore();
 
 export default chatStore;

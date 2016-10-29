@@ -1,38 +1,35 @@
 import React from 'react';
 
-function ChatMetrics({messageList, newMessage}) {
+export default React.createClass({
+	render() {
 
-  let numberOfCharacters = newMessage.length;
-  let numberOfMessages = messageList.length;
+		let timeOfLastMessage = '';
 
-  let timeOfLastMessage;
+		if (this.props.messageList.length > 0) {
+			let lastMessage = this.props.messageList[this.props.messageList.length - 1];
+			let dateOfLastMessage = new Date(lastMessage.id);
+			timeOfLastMessage = dateOfLastMessage.toLocaleTimeString();
+		}
 
-  if (numberOfMessages > 0) {
-    let lastMessage = messageList[messageList.length - 1];
-    let date = new Date(lastMessage.timestamp);
-    timeOfLastMessage = date.toLocaleTimeString();
-  }
-
-  return (
-    <div className="chat-metrics">
-      <table>
-        <tbody>
-          <tr>
-            <td>Number of characters:</td>
-            <td className="right">{numberOfCharacters}</td>
-          </tr>
-          <tr>
-            <td>Number of messages:</td>
-            <td className="right">{numberOfMessages}</td>
-          </tr>
-          <tr>
-            <td>Time of last message:</td>
-            <td className="right">{timeOfLastMessage}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  );
-}
-
-export default ChatMetrics;
+		return (
+			<div className="chat-metrics">
+				<table>
+					<tbody>
+					<tr>
+						<td>New message characters</td>
+						<td className="right">{this.props.newMessage.length}</td>
+					</tr>
+					<tr>
+						<td>Number of messages</td>
+						<td className="right">{this.props.messageList.length}</td>
+					</tr>
+					<tr>
+						<td>Time of last message</td>
+						<td className="right">{timeOfLastMessage}</td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+		);
+	}
+});

@@ -1,5 +1,5 @@
 import React from 'react';
-import chatActionCreators from './chat-actions-creators'
+import chatActionsCreators from './chat-actions-creators';
 
 export default React.createClass({
 
@@ -24,9 +24,6 @@ export default React.createClass({
 				<div className="message-button">
 					<button onClick={this._submitMessage}>Submit</button>
 				</div>
-				<div className="count">
-					{this._renderMessageCount()}
-				</div>
 			</div>
 		);
 	},
@@ -43,11 +40,11 @@ export default React.createClass({
 	},
 
 	_handleChange(event) {
-		chatActionCreators.changeNewMessage(event.target.value);
+		chatActionsCreators.changeNewMessage(event.target.value);
 	},
 
 	_submitMessage() {
-		chatActionCreators.submitNewMessage();
+		chatActionsCreators.submitMessage();
 	},
 
 	_checkKeyPress(event) {
@@ -62,9 +59,5 @@ export default React.createClass({
 
 	componentDidUpdate() {
 		this.refs.messagesDiv.scrollTop = this.refs.messagesDiv.scrollHeight;
-	},
-
-	_renderMessageCount() {
-		return <span>Message count: {this.props.messageList.length}</span>
 	}
 });

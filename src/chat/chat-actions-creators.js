@@ -1,25 +1,38 @@
 import dispatcher from './chat-dispatcher';
 
-const chatActionCreators = {
+let chatActionsCreators = {
 
-  changeNewMessage(newMessage) {
-    let action = {
-      type: 'change-new-message',
-      payload: {
-        content: newMessage
-      }
-    };
+	changeNewMessage(newMessage) {
 
-    dispatcher.dispatch(action);
-  },
+		let action = {
+			type: 'change-new-message',
+			payload: {
+				content: newMessage
+			}
+		};
 
-  submitNewMessage() {
-    let action = {
-      type: 'submit-new-message'
-    };
+		dispatcher.dispatch(action);
+	},
 
-    dispatcher.dispatch(action);
-  }
+	submitMessage() {
+		let action = {
+			type: 'submit-message'
+		};
+
+		dispatcher.dispatch(action);
+	},
+
+	incomingMessage(msg) {
+
+		let action = {
+			type: 'incoming-new-message',
+			payload: {
+				content: msg
+			}
+		};
+
+		dispatcher.dispatch(action);
+	}
 };
 
-export default chatActionCreators;
+export default chatActionsCreators;
