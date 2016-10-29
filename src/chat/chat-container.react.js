@@ -43,8 +43,9 @@ export default React.createClass({
 		chatActionsCreators.changeNewMessage(event.target.value);
 	},
 
-	_submitMessage() {
-		chatActionsCreators.submitMessage();
+	submitNewMessage() {
+		actionCreators.submitNewMessage();
+		//actionCreators.checkGiphyCommand(this.props.newMessage);
 	},
 
 	_checkKeyPress(event) {
