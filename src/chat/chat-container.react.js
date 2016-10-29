@@ -1,5 +1,5 @@
 import React from 'react';
-import chatActionsCreators from './chat-actions-creators';
+import actionCreators from './chat-actions-creators';
 
 export default React.createClass({
 
@@ -9,38 +9,40 @@ export default React.createClass({
 
 		return (
 			<div className="chat-container">
-				<div className="messages" ref="messagesDiv">
-					{this._renderMessages()}
-				</div>
+				<div className="messages" ref="messages">{this.renderMessages()}</div>
 				<div className="message-input">
 					<input
 						type="text"
-						placeholder="Type here"
+						placeholder="Enter message here"
+						ref="messageInput"
 						value={this.props.newMessage}
-						onChange={this._handleChange}
-						onKeyPress={this._checkKeyPress}
-						ref={this._focus}/>
+						onChange={this.onNewMessageChange}
+						onKeyPress={this.onNewMessageKeyPress}/>
 				</div>
 				<div className="message-button">
-					<button onClick={this._submitMessage}>Submit</button>
+					<button onClick={this.onSubmitClick}>Submit</button>
 				</div>
 			</div>
 		);
 	},
 
-	_renderMessages() {
-		if (this.props.messageList.length === 0) {
-			return <span>No messages</span>;
+	renderMessages() {
+		if (this.props.messages.length > 0) {
+			return this.props.messages.map(m => {
+				return <div className="message" key={m.id}>{m.content}</div>
+			});
 		}
 		else {
-			return this.props.messageList.map(message => {
-				return <div className="message" key={message.id}>{message.content}</div>
-			});
+			return <div className="no-messages">No messages</div>;
 		}
 	},
 
-	_handleChange(event) {
-		chatActionsCreators.changeNewMessage(event.target.value);
+	onNewMessageChange(event) {
+		actionCreators.changeNewMessage(event.target.value);
+	},
+
+	onSubmitClick() {
+		this.submitNewMessage();
 	},
 
 	submitNewMessage() {
@@ -48,17 +50,17 @@ export default React.createClass({
 		//actionCreators.checkGiphyCommand(this.props.newMessage);
 	},
 
-	_checkKeyPress(event) {
+	onNewMessageKeyPress(event) {
 		if (event.key === 'Enter') {
-			this._submitMessage();
+			this.submitNewMessage();
 		}
 	},
 
-	_focus(inputDomElement) {
-		inputDomElement.focus();
+	componentDidMount() {
+		this.refs.messageInput.focus();
 	},
 
 	componentDidUpdate() {
-		this.refs.messagesDiv.scrollTop = this.refs.messagesDiv.scrollHeight;
+		this.refs.messages.scrollTop = this.refs.messages.scrollHeight;
 	}
 });

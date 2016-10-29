@@ -1,23 +1,29 @@
 import dispatcher from './chat-dispatcher';
 import giphyApi from './giphy-api';
 
-let chatActionsCreators = {
+// this object will have all the helper functions that will dispatch actions
+// the action creators form an interface of what's possible to do with the application
+let actionCreators = {
 
-	changeNewMessage(newMessage) {
+	changeNewMessage(newValue) {
 
+		// this is the action object, it has a type and payload
+		// payload will have any data that complements the action
 		let action = {
 			type: 'change-new-message',
 			payload: {
-				content: newMessage
+				newValue
 			}
 		};
 
+		// we use the dispatcher to dispatch the action
 		dispatcher.dispatch(action);
 	},
 
-	submitMessage() {
+	submitNewMessage() {
+
 		let action = {
-			type: 'submit-message'
+			type: 'submit-new-message'
 		};
 
 		dispatcher.dispatch(action);
@@ -34,13 +40,13 @@ let chatActionsCreators = {
 
 		dispatcher.dispatch(action);
 	},
-	
+
 	checkGiphyCommand(newMessage) {
 		let giphyCommand = '/giphy';
 		if (newMessage.startsWith(giphyCommand)) {
 			let seed = newMessage.substring(giphyCommand.length + 1);
 			giphyApi.random(seed);
-		}	
+		}
 	},
 
 	updateRequestStatus(actionType) {
@@ -75,4 +81,4 @@ let chatActionsCreators = {
 	}
 };
 
-export default chatActionsCreators;
+export default actionCreators;

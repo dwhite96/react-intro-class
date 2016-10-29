@@ -40,21 +40,7 @@ export default React.createClass({
 		);
 	},
 
-	// render() {
-	// 	return (
-	// 		<ChatContainer {...this.state} />
-	// 	);
-	// }
-
-	componentDidMount() {
-		chatStore.addEventListener(this._handleChange);
-	},
-
 	componentWillUnmount() {
-		chatStore.removeEventListener(this._handleChange);
-	},
-
-	_handleChange() {
-		this.setState(this._getState());
+		store.removeChangeListener(this.handleChange);
 	}
 });
