@@ -1,11 +1,12 @@
 import React from 'react';
-import chatStore from './chat-store';
-import ChatContainer from './chat-container.react'
+import store from './chat-store';
+import ChatContainer from './chat-container.react';
 import ChatMetrics from './chat-metrics.react';
 import ChatGiphys from './chat-giphys.react';
 import RequestStatus from './request-status.react.js';
 
 export default React.createClass({
+
 	getInitialState() {
 		return this._getState();
 	},
