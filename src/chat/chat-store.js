@@ -4,8 +4,6 @@ import messageApi from './message-api';
 
 const storeChangeEvent = 'chat-store-change';
 
-const storeChangeEvent = 'store-change-event';
-
 class ChatStore extends EventEmitter {
 
 	constructor() {

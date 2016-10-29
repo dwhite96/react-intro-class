@@ -8,7 +8,7 @@ import TextInput from './text-input.react';
 
 ReactDOM.render(
     <div>
-        <Greeting name="Fernando" likeTo="play basketball" />
+        <Greeting name="David" likeTo="hike" />
         <ClickCounter initialCount={11} offset={3} />
 		<TextInput />
     </div>,
