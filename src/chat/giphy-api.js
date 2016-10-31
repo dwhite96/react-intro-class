@@ -17,16 +17,16 @@ let giphyApi = {
 				actionCreators.addNewGiphy(res.data);
 			},
 			error() {
-				
+
 				actionCreators.updateRequestStatus('giphy-request-failed');
-				
+
 				console.log(...arguments);
 			}
 		});
 	},
 
-	trending() {
-		let url = `http://api.giphy.com/v1/gifs/trending?api_key=dc6zaTOxFJmzC&limit=2&rating=g`;
+	trending(count = 2) {
+		let url = `http://api.giphy.com/v1/gifs/trending?api_key=dc6zaTOxFJmzC&limit=${count}&rating=g`;
 
 		actionCreators.updateRequestStatus('giphy-request-fetching');
 
